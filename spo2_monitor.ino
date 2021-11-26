@@ -1,10 +1,12 @@
 //adding libraries for various devices used
 #include <Adafruit_GFX.h>
 #include <MCUFRIEND_kbv.h>
+
 #include <SPI.h>
 #include <SD.h>
 #include <FreeDefaultFonts.h>
 #include <Fonts/FreeSans12pt7b.h>
+#include <CircularBuffer.h>
 //#include <TouchScreen.h>
 
 #define YP A3
@@ -28,6 +30,9 @@ MCUFRIEND_kbv tft;
 #define YELLOW  0xFFE0
 #define WHITE   0xFFFF
 
+CircularBuffer<int,120> spo2_data;
+CircularBuffer<int,120> hr_data;
+
 void setup() {
   // put your setup code here, to run once:
   init();
@@ -40,8 +45,9 @@ void setup() {
   
   tft.begin(ID);                 // LCD gets ready to work
   tft.setRotation(1);
-
   draw();
+
+
 }
 
 void loop() {
